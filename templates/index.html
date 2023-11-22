@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Panel</title>
+<style>
+        body {
+            text-align: center; /* Align text/content in the center */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Align flex container items in the center */
+        }
+</style>
+</head>
+<body>
+    <h1>Student Panel</h1>
+    
+    <form action="/add_student" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+        
+        <label for="grade">Grade:</label>
+        <input type="text" id="grade" name="grade" required>
+        
+        <button type="submit">Add Student</button>
+    </form>
+    
+    {% if students_data %}
+    <ol>
+        {% for student in students_data %}
+        <li>{{ student.name }} | {{ student.age }} years old | Grade: {{ student.grade }}</li>
+        {% endfor %}
+    </ol>
+    {% endif %}
+
+    <a href="/generate_xml" download><button>Download XML</button></a>
+    <a href="/"><button>Source</button></a>
+</body>
+</html>
