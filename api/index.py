@@ -11,6 +11,11 @@ students_data = []
 def index():
     return render_template('index.html')
 
+@app.route('/manifest.json')
+def manifest():
+    with open('./manifest.json', "r") as f:
+        manifest = f.read()
+    return manifest
 
 @app.route('/add_student', methods=['POST'])
 def add_student():
