@@ -1,0 +1,14 @@
+{
+  "name": "Student Panel",
+  "short_name": "Student Panel",
+  "description": "A simple web app for collecting student data and generating XML.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "scope": "/",
+  "serviceworker": {
+    "src": "/static/sw.js",
+    "scope": "/"
+  }
+}
