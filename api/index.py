@@ -40,9 +40,9 @@ def generate_xml():
 
     # Create XML file
     tree = ET.ElementTree(root)
-    tree.write('students.xml')
+    tree.write('/tmp/students.xml')
 
-    return send_file('index.py', as_attachment=True)
+    return send_file('/tmp/students.xml', as_attachment=True)
 
 
 if __name__ == '__main__':
