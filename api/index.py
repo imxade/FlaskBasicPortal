@@ -42,7 +42,7 @@ def generate_xml():
     tree = ET.ElementTree(root)
     tree.write('students.xml')
 
-    return send_file('students.xml', as_attachment=True)
+    return send_file('../students.xml', as_attachment=True)
 
 
 if __name__ == '__main__':

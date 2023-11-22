@@ -3,4 +3,4 @@
 python -m venv venv
 source venv/bin/activate
 pip install flask
-python main.py
+python api/index.py
