@@ -34,19 +34,23 @@
         <input type="number" placeholder="Age" id="age" name="age" required>
         
         <input type="text" placeholder="Grade" id="grade" name="grade" required>
+
+    <button type="submit">Add Student</button>
         
-        <button type="submit">Add Student</button>
     </form>
     
+    <a 
+     href="https://codeberg.org/MAKAUT/FlaskBasicPortal/src/branch/main/api"
+    >Source</a>
+    
     {% if students_data %}
+    <a href="/generate_xml" download><button>Download XML</button></a>
     <ol>
         {% for student in students_data %}
         <li>{{ student.name }} | {{ student.age }} years old | Grade: {{ student.grade }}</li>
         {% endfor %}
     </ol>
-    <a href="/generate_xml" download><button>Download XML</button></a>
     {% endif %}
 
-    <a href="https://codeberg.org/MAKAUT/FlaskBasicPortal/src/branch/main/api"><button>Source</button></a>
 </body>
 </html>
