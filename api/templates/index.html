@@ -28,6 +28,10 @@
 <body>
     <h1>Student Panel</h1>
     
+    <a 
+     href="https://codeberg.org/MAKAUT/FlaskBasicPortal/src/branch/main/api"
+    >Source</a>
+    
     <form action="/add_student" method="post">
         <input type="text" placeholder="Name" id="name" name="name" required>
         
@@ -38,10 +42,6 @@
     <button type="submit">Add Student</button>
         
     </form>
-    
-    <a 
-     href="https://codeberg.org/MAKAUT/FlaskBasicPortal/src/branch/main/api"
-    >Source</a>
     
     {% if students_data %}
     <a href="/generate_xml" download><button>Download XML</button></a>
