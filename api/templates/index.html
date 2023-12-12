@@ -1,21 +1,20 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width,
+      maximum-scale=0.9,user-scalable=0"
+    />
+    <meta charset="UTF-8" />
     <title>Student Panel</title>
-    <link rel="manifest" href='/static/manifest.json'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/static/sw.js').then(function(registration) {
-          console.log('Service Worker registered with scope:', registration.scope);
-        }).catch(function(error) {
-          console.error('Service Worker registration failed:', error);
-        });
-      }
-    </script>
+    <link rel="manifest" href="/static/manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+    />
+    <script src="static/activateSw.js" defer></script>
     <style>
             body {
                 text-align: center; /* Align text/content in the center */
@@ -24,7 +23,7 @@
                 align-items: center; /* Align flex container items in the center */
             }
     </style>
-</head>
+  </head>
 <body>
     <h1>Student Panel</h1>
     
@@ -45,7 +44,7 @@
     </form>
     
     {% if students_data %}
-    <a href="/generate_xml" download><button>Download XML</button></a>
+    <a href="/generate_excel" download><button>Download XML</button></a>
     <ol>
         {% for student in students_data %}
         <li>{{ student.name }} | {{ student.age }} years old | Grade: {{ student.grade }}</li>

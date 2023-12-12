@@ -1,11 +1,7 @@
 from flask import Flask, render_template, request, send_file
-import xml.etree.ElementTree as ET
+import openpyxl
 
 app = Flask(__name__)
-
-# Store student data in a list
-students_data = []
-
 
 @app.route('/')
 def index():
@@ -15,38 +11,45 @@ def index():
 def static_file(path):
     return app.send_static_file(path)
 
-@app.route('/add_student', methods=['POST'])
+@app.route('/add_student', methods=['GET', 'POST'])
 def add_student():
-    # Get data from the form
-    name = request.form['name']
-    age = request.form['age']
-    grade = request.form['grade']
+    if request.method == 'POST':
+        save_student_to_excel(request.form.to_dict())
+    return render_template('index.html', students_data=read_students_from_excel())
 
-    # Append data to the list
-    students_data.append({'name': name, 'age': age, 'grade': grade})
+def save_student_to_excel(student_data):
+    excel_file_path = '/tmp/students.xlsx'
+    headers = ['Name', 'Age', 'Grade']
 
-    return render_template('index.html', students_data=students_data)
+    try:
+        workbook = openpyxl.load_workbook(excel_file_path)
+        worksheet = workbook.active
+    except FileNotFoundError:
+        workbook = openpyxl.Workbook()
+        worksheet = workbook.active
+        worksheet.append(headers)
 
+    worksheet.append([student_data.get(field, '') for field in headers])
+    workbook.save(excel_file_path)
 
-@app.route('/generate_xml')
-def generate_xml():
-    # Create XML structure
-    root = ET.Element('students')
-    for student in students_data:
-        student_elem = ET.SubElement(root, 'student')
-        name_elem = ET.SubElement(student_elem, 'name')
-        name_elem.text = student['name']
-        age_elem = ET.SubElement(student_elem, 'age')
-        age_elem.text = student['age']
-        grade_elem = ET.SubElement(student_elem, 'grade')
-        grade_elem.text = student['grade']
+def read_students_from_excel():
+    excel_file_path = '/tmp/students.xlsx'
+    headers = ['Name', 'Age', 'Grade']
 
-    # Create XML file
-    tree = ET.ElementTree(root)
-    tree.write('/tmp/students.xml')
+    try:
+        workbook = openpyxl.load_workbook(excel_file_path)
+        worksheet = workbook.active
+    except FileNotFoundError:
+        return []
 
-    return send_file('/tmp/students.xml', as_attachment=True)
+    students_data = [dict(zip(headers, row)) for row in worksheet.iter_rows(min_row=2, values_only=True)]
+    return students_data
 
+@app.route('/generate_excel')
+def generate_excel():
+    excel_file_path = '/tmp/students.xlsx'
+    save_student_to_excel({'Name': 'John', 'Age': 25, 'Grade': 'A'})  # Example data
+    return send_file(excel_file_path, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
