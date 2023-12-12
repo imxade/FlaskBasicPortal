@@ -11,7 +11,7 @@ def index():
 def static_file(path):
     return app.send_static_file(path)
 
-@app.route('/add_student', methods=['GET', 'POST'])
+@app.route('/add_student', methods=['POST'])
 def add_student():
     if request.method == 'POST':
         save_student_to_excel(request.form.to_dict())
@@ -45,11 +45,12 @@ def read_students_from_excel():
     students_data = [dict(zip(headers, row)) for row in worksheet.iter_rows(min_row=2, values_only=True)]
     return students_data
 
-@app.route('/generate_excel')
+@app.route('/generate_excel', methods=['POST'])
 def generate_excel():
-    excel_file_path = '/tmp/students.xlsx'
-    save_student_to_excel({'Name': 'John', 'Age': 25, 'Grade': 'A'})  # Example data
-    return send_file(excel_file_path, as_attachment=True)
+    if request.method == 'POST':
+        input_data = request.form.to_dict()
+        save_student_to_excel(input_data)
+    return send_file('/tmp/students.xlsx', as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)
