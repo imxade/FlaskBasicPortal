@@ -24,7 +24,7 @@ def append_student_data(worksheet, student_data):
 
 def save_workbook(excel_file_path, workbook):
     workbook.save(excel_file_path)
-
+    
 def save_student_to_excel(student_data):
     excel_file_path = '/tmp/students.xlsx'
     workbook = get_workbook(excel_file_path)
@@ -35,18 +35,31 @@ def save_student_to_excel(student_data):
 
     append_student_data(worksheet, student_data)
     save_workbook(excel_file_path, workbook)
-
+    
 def read_students_from_excel():
     excel_file_path = '/tmp/students.xlsx'
     workbook = get_workbook(excel_file_path)
     worksheet = get_worksheet(workbook)
 
-    if not worksheet.dimensions:
-        return []
+    # Check if the worksheet has any data
+    if worksheet.dimensions:
+        headers = get_headers()
+        students_data = [dict(zip(headers, row)) for row in worksheet.iter_rows(min_row=1, values_only=True)]
+        return students_data
 
-    headers = get_headers()
-    students_data = [dict(zip(headers, row)) for row in worksheet.iter_rows(min_row=2, values_only=True)]
-    return students_data
+    return []
+
+# def read_students_from_excel():
+#     excel_file_path = '/tmp/students.xlsx'
+#     workbook = get_workbook(excel_file_path)
+#     worksheet = get_worksheet(workbook)
+
+#     if not worksheet.dimensions:
+#         return []
+
+#     headers = get_headers()
+#     students_data = [dict(zip(headers, row)) for row in worksheet.iter_rows(min_row=2, values_only=True)]
+#     return students_data
 
 @app.route('/')
 def index():
@@ -65,6 +78,13 @@ def add_student():
 
 def render_elements():
     return render_template('index.html', students_data=read_students_from_excel())
+
+@app.route('/clear_data')
+def clear_data():
+    excel_file_path = '/tmp/students.xlsx'
+    workbook = openpyxl.Workbook()    
+    save_workbook(excel_file_path, workbook)
+    return render_elements()
 
 @app.route('/generate_excel', methods=['POST'])
 def generate_excel():
