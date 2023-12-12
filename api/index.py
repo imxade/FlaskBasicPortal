@@ -3,9 +3,54 @@ import openpyxl
 
 app = Flask(__name__)
 
+def get_workbook(excel_file_path):
+    try:
+        return openpyxl.load_workbook(excel_file_path)
+    except FileNotFoundError:
+        return openpyxl.Workbook()
+
+def get_worksheet(workbook):
+    return workbook.active
+
+def get_headers():
+    return ['Name', 'Age', 'Grade']
+
+def append_headers(worksheet):
+    worksheet.append(get_headers())
+
+def append_student_data(worksheet, student_data):
+    headers = get_headers()
+    worksheet.append([student_data.get(field, '') for field in headers])
+
+def save_workbook(excel_file_path, workbook):
+    workbook.save(excel_file_path)
+
+def save_student_to_excel(student_data):
+    excel_file_path = '/tmp/students.xlsx'
+    workbook = get_workbook(excel_file_path)
+    worksheet = get_worksheet(workbook)
+
+    if not worksheet.dimensions:
+        append_headers(worksheet)
+
+    append_student_data(worksheet, student_data)
+    save_workbook(excel_file_path, workbook)
+
+def read_students_from_excel():
+    excel_file_path = '/tmp/students.xlsx'
+    workbook = get_workbook(excel_file_path)
+    worksheet = get_worksheet(workbook)
+
+    if not worksheet.dimensions:
+        return []
+
+    headers = get_headers()
+    students_data = [dict(zip(headers, row)) for row in worksheet.iter_rows(min_row=2, values_only=True)]
+    return students_data
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_elements()
 
 @app.route('/static/<path:path>')
 def static_file(path):
@@ -14,36 +59,12 @@ def static_file(path):
 @app.route('/add_student', methods=['POST'])
 def add_student():
     if request.method == 'POST':
-        save_student_to_excel(request.form.to_dict())
+        student_data = request.form.to_dict()
+        save_student_to_excel(student_data)
+    return render_elements()
+
+def render_elements():
     return render_template('index.html', students_data=read_students_from_excel())
-
-def save_student_to_excel(student_data):
-    excel_file_path = '/tmp/students.xlsx'
-    headers = ['Name', 'Age', 'Grade']
-
-    try:
-        workbook = openpyxl.load_workbook(excel_file_path)
-        worksheet = workbook.active
-    except FileNotFoundError:
-        workbook = openpyxl.Workbook()
-        worksheet = workbook.active
-        worksheet.append(headers)
-
-    worksheet.append([student_data.get(field, '') for field in headers])
-    workbook.save(excel_file_path)
-
-def read_students_from_excel():
-    excel_file_path = '/tmp/students.xlsx'
-    headers = ['Name', 'Age', 'Grade']
-
-    try:
-        workbook = openpyxl.load_workbook(excel_file_path)
-        worksheet = workbook.active
-    except FileNotFoundError:
-        return []
-
-    students_data = [dict(zip(headers, row)) for row in worksheet.iter_rows(min_row=2, values_only=True)]
-    return students_data
 
 @app.route('/generate_excel', methods=['POST'])
 def generate_excel():
