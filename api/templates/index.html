@@ -1,59 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width,
+      maximum-scale=0.8"
+    />
+    <meta charset="UTF-8" />
+    <meta name="theme-color" content="darkgrey" />
+    <meta name="description" content="School Project" />
     <title>Student Panel</title>
-    <link rel="manifest" href="/static/manifest.json">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
-    <script src="static/activateSw.js" defer></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+    />
+    <link rel="manifest" href="/static/manifest.json" />
+    <script src="/static/sw.js"></script>
     <style>
-        body {
-          display: grid;
-          align-items: center;
-          justify-items: center;
-        }
+      body {
+        display: grid;
+        align-items: center;
+        justify-items: center;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Student Panel</h1>
-    
-    <a href="https://codeberg.org/MAKAUT/FlaskBasicPortal/src/branch/main/api">Source</a>
-    <br>
-    
+
+    <a href="https://codeberg.org/MAKAUT/FlaskBasicPortal/src/branch/main/api"
+      >Source</a
+    >
+    <br />
+
     <form action="/add_student" method="post">
-        <input type="text" placeholder="Name" id="name" name="Name" required>
-        <input type="number" placeholder="Age" id="age" name="Age" required>
-        <input type="text" placeholder="Grade" id="grade" name="Grade" required>
-        <button type="submit">Add Student</button>
+      <input type="text" placeholder="Name" id="name" name="Name" required />
+      <input type="number" placeholder="Age" id="age" name="Age" required />
+      <input type="text" placeholder="Grade" id="grade" name="Grade" required />
+      <button type="submit">Add Student</button>
     </form>
 
     <form action="/generate_excel" method="post">
-        <button type="submit">Download Excel</button>
+      <button type="submit">Download Excel</button>
     </form>
     <form action="/clear_data">
-        <button type="submit">Clear Data</button>
+      <button type="submit">Clear Data</button>
     </form>
 
     {% if students_data %}
     <table border="1">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Grade</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for student in students_data %}
-            <tr>
-                <td>{{ student.Name }}</td>
-                <td>{{ student.Age }}</td>
-                <td>{{ student.Grade }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students_data %}
+        <tr>
+          <td>{{ student.Name }}</td>
+          <td>{{ student.Age }}</td>
+          <td>{{ student.Grade }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
     {% endif %}
-
-</body>
+  </body>
 </html>
