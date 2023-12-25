@@ -12,9 +12,7 @@ body {
   grid-auto-flow: column; /* Align items in a row */
 }
 
-table {
+table, form, .button-container {
   width: 80%;
-  margin-top: 10px;
   border-collapse: collapse;
 }
-
