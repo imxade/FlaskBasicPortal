@@ -12,31 +12,13 @@
     <title>Student Panel</title>
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
+      href="static/style.css"
     />
-    <link rel="manifest" href="/static/manifest.json" />
-    <script src="/static/sw.js"></script>
-    <style>
-      body {
-        display: grid;
-        align-items: center;
-        justify-items: center;
-      }
-
-      .button-container {
-        display: flex;
-        gap: 10px; /* Adjust the gap as needed */
-      }
-
-      form {
-        margin-top: 10px; /* Add margin for separation from the forms */
-      }
-    </style>
+    <link rel="manifest" href="static/manifest.json" />
+    <script src="static/sw.js"></script>
   </head>
   <body>
     <h1>Student Panel</h1>
-
-    <a href="https://codeberg.org/zz/FlaskBasicPortal">Source</a><br />
 
     <form action="/add_student" method="post">
       <input type="text" placeholder="Name" id="name" name="Name" required />
@@ -51,6 +33,9 @@
       </form>
       <form action="/clear_data">
         <button type="submit">Clear Data</button>
+      </form>
+      <form>
+        <a href="https://codeberg.org/zz/FlaskBasicPortal" target="blank"/><button>Source</button></a>
       </form>
     </div>
 
