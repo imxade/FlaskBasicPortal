@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" data-theme="dark">
   <head>
     <meta
@@ -22,15 +22,21 @@
         align-items: center;
         justify-items: center;
       }
+
+      .button-container {
+        display: flex;
+        gap: 10px; /* Adjust the gap as needed */
+      }
+
+      form {
+        margin-top: 10px; /* Add margin for separation from the forms */
+      }
     </style>
   </head>
   <body>
     <h1>Student Panel</h1>
 
-    <a href="https://codeberg.org/zz/FlaskBasicPortal"
-      >Source</a
-    >
-    <br />
+    <a href="https://codeberg.org/zz/FlaskBasicPortal">Source</a><br />
 
     <form action="/add_student" method="post">
       <input type="text" placeholder="Name" id="name" name="Name" required />
@@ -39,12 +45,14 @@
       <button type="submit">Add Student</button>
     </form>
 
-    <form action="/generate_excel" method="post">
-      <button type="submit">Download Excel</button>
-    </form>
-    <form action="/clear_data">
-      <button type="submit">Clear Data</button>
-    </form>
+    <div class="button-container">
+      <form action="/generate_excel" method="post">
+        <button type="submit">Download Excel</button>
+      </form>
+      <form action="/clear_data">
+        <button type="submit">Clear Data</button>
+      </form>
+    </div>
 
     {% if students_data %}
     <table border="1">
