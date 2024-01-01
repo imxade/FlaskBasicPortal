@@ -1,0 +1,6 @@
+.*
+!.offCache.js
+README*
+asset*
+vercel.json
+launch.sh
