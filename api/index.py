@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, send_file, redirect, url_for
 import openpyxl
 
 app = Flask(__name__)
@@ -59,6 +59,8 @@ def add_student():
     if request.method == 'POST':
         student_data = request.form.to_dict()
         save_student_to_excel(student_data)
+        # Redirect to the home page after processing the form
+        return redirect(url_for('index'))
     return render_elements()
 
 def render_elements():
