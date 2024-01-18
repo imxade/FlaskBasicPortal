@@ -43,24 +43,6 @@ def read_students_from_excel():
         return []
 
     headers = get_headers()
-    students_data = []
-
-    for row in worksheet.iter_rows(min_row=2, values_only=True):
-        student_dict = {}
-        for field, value in zip(headers, row):
-            student_dict[field] = value
-        students_data.append(student_dict)
-
-    return students_data
-
-def read_students_from_excel():
-    workbook = get_workbook(EXCEL_FILE_PATH)
-    worksheet = get_worksheet(workbook)
-
-    if not worksheet.dimensions:
-        return []
-
-    headers = get_headers()
     students_data = [dict(zip(headers, row)) for row in worksheet.iter_rows(min_row=1, values_only=True)]
     return students_data
 
